@@ -1,0 +1,32 @@
+name: Convert
+
+on: push
+
+jobs:
+  convert_via_pandoc:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Create DOCX
+        uses: docker://pandoc/core:2.9
+        with:
+          args: >-
+            --output=CV.docx
+            README.txt
+
+      - name: Upload DOCX
+        uses: actions/upload-artifact@v2
+        with:
+          path: CV.docx
+  
+      - name: Create PDF
+        uses: docker://pandoc/core:2.9
+        with:
+          args: >-
+            --output=CV.pdf
+            README.txt
+      
+      - name: Upload PDF
+        uses: actions/upload-artifact@v2
+        with:
+          path: CV.pdf
+  
